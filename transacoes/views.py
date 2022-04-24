@@ -1,26 +1,53 @@
+import os
+from django.http import HttpResponse
 from django.shortcuts import render
 import csv
 from transacoes.forms import CsvModelForm
-from .models import Modelo
 
 def upload(request):
+
+    name = ''
+    size = 0
+    
+    for filename, file in request.FILES.items():
+        name = request.FILES[filename].name
+        size = request.FILES[filename].size
+
     form = CsvModelForm(request.POST or None, request.FILES or None)
-    if form.is_valid:
-        form.save()
-    return render(request, 'upload.html', {'form':form})
+    if request.method == 'POST' and form.is_valid:
+        if render_csv(name):
+            form.save()
+            form = CsvModelForm()
+        else:
+            return HttpResponse('<h1>Arquivo em branco<h1>')
+    dados = {'form':form, 'name':name, 'size':size}
+    
+    return render(request, 'upload.html', dados)
 
+def walk(dirname):
+    for name in os.listdir(dirname):
+        path = os.path.join(dirname, name)
+        if os.path.isfile(path):
+            return path
+        else:
+            return walk(path)
 
-def render_csv(request):
-
+def render_csv(filename):
+    name = walk('csv/csv')
+    
     lista = []
-
-    with open('csv/transacoes-2022-01-01.csv', 'r') as file:
+    with open(name, 'r') as file:
         reader = csv.reader(file, delimiter=',')
-        for linha in reader:
-            lista.append(
-                {'Banco Origem':linha[0], 'Agência Origem':linha[1], 'Conta Origem':linha[2],
-                'Banco Destino':linha[3], 'Agência Destino':linha[4], 'Conta Destino':linha[5],
-                'Valor da Transação':linha[6], 'Data e hora da transção':linha[7]}
-                )
-
-    return render(request,'index.html', {'lista':lista})
+        for linha in reader: 
+            if linha[0] and linha[1] and linha[2] and linha[3] and linha[4] and linha[5] and linha[6] and linha[7] == '':
+                formulario_preenchido = False
+            else:
+                formulario_preenchido = True
+                for linha in reader:
+                    lista.append(
+                        {'Banco Origem':linha[0], 'Agência Origem':linha[1], 'Conta Origem':linha[2],
+                        'Banco Destino':linha[3], 'Agência Destino':linha[4], 'Conta Destino':linha[5],
+                        'Valor da Transação':linha[6], 'Data e hora da transção':linha[7]}
+                        )
+    
+    return formulario_preenchido
