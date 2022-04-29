@@ -2,7 +2,9 @@ import os
 from django.http import HttpResponse
 from django.shortcuts import render
 import csv
+from transacoes.models import Modelo
 from transacoes.forms import CsvModelForm
+from movimento.models import ModeloMovimento
 
 def upload(request):
 
@@ -12,13 +14,14 @@ def upload(request):
     for filename, file in request.FILES.items():
         name = request.FILES[filename].name
         size = request.FILES[filename].size
-
+    
     form = CsvModelForm(request.POST or None, request.FILES or None)
     if request.method == 'POST' and form.is_valid:
+        form.save()
         if render_csv(name):
-            form.save()
             form = CsvModelForm()
         else:
+            form = CsvModelForm()
             return HttpResponse('<h1>Arquivo em branco<h1>')
     dados = {'form':form, 'name':name, 'size':size}
     
@@ -32,22 +35,23 @@ def walk(dirname):
         else:
             return walk(path)
 
-def render_csv(filename):
-    name = walk('csv/csv')
-    
-    lista = []
-    with open(name, 'r') as file:
+def render_csv(name):
+    # name = Modelo.objects.get()
+    # name = walk('csv/csv')
+
+    with open('csv/csv/transacoes-2022-01-01.csv', 'r') as file: 
         reader = csv.reader(file, delimiter=',')
-        for linha in reader: 
-            if linha[0] and linha[1] and linha[2] and linha[3] and linha[4] and linha[5] and linha[6] and linha[7] == '':
-                formulario_preenchido = False
-            else:
-                formulario_preenchido = True
-                for linha in reader:
-                    lista.append(
-                        {'Banco Origem':linha[0], 'Agência Origem':linha[1], 'Conta Origem':linha[2],
-                        'Banco Destino':linha[3], 'Agência Destino':linha[4], 'Conta Destino':linha[5],
-                        'Valor da Transação':linha[6], 'Data e hora da transção':linha[7]}
-                        )
-    
-    return formulario_preenchido
+        for linha in reader:
+            ModeloMovimento.objects.create(
+               banco_origem = linha[0],
+               agencia_origem = linha[1],
+               conta_origem = linha[2],
+               banco_destino = linha[3],
+               agencia_destino = linha[4],
+               conta_destino = linha[5],
+               valor_da_transacao = linha[6],
+               data_e_hora_da_transacao = linha[7]
+           )
+            formulario = True
+            
+    return formulario
