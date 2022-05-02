@@ -1,4 +1,4 @@
-<form action="" method="POST" class="ui form" enctype="multipart/form-data">
+<form action="{% url 'upload' %}" method="POST" class="ui form" enctype="multipart/form-data">
     {% csrf_token %}
     {{form}}
     <button type="submit" name="filename" class="ui button primary">Confirm</button>
