@@ -1,0 +1,7 @@
+<form action="{% url 'upload' %}" method="POST" class="ui form" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{form}}
+    <button type="submit" name="arquivo" class="ui button primary">Confirm</button>
+</form>
+<h5>{{name}}</h5>
+<h5>{{size}} KB's</h5>

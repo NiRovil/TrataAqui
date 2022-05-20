@@ -38,7 +38,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'transacoes',
     'csv',
     'movimento',
 ]
@@ -80,7 +79,7 @@ WSGI_APPLICATION = 'back.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
+        'NAME': 'server',
         'USER': 'postgres',
         'PASSWORD': 'nicolasvx123',
         'HOST': 'localhost'
