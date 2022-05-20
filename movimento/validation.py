@@ -1,8 +1,7 @@
-from django.http import HttpResponse
 from .models import ModeloMovimento
 from datetime import datetime
 
-def validation(linha):
+def validation(linha, validacao):
     lista = linha.decode('utf-8')
     lista = lista.strip()
     lista = lista.split(',')
@@ -14,9 +13,8 @@ def validation(linha):
     if data_transacao is None:
         data_transacao = ModeloMovimento.objects.dates('data_e_hora_da_transacao', 'year')
     if data_inicio.date() in data_transacao:
-        print('Teste 1')
-        return HttpResponse('<h1>As informações dessa data já foram enviadas<h1>')
-    
+        validacao['index'] = 'Um arquivo com as mesmas datas e horarios já foi usado para upload!'
+  
     banco = ModeloMovimento(
         banco_origem = lista[0],
         agencia_origem = lista[1],
@@ -32,5 +30,5 @@ def validation(linha):
         banco.full_clean()
         banco.save()
     else:
-        print('Teste 2')
-        return HttpResponse('<h1>As datas não coincidem<h1>')
+        validacao['index'] = 'As datas não coincidem'
+        
