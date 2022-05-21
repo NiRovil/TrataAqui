@@ -1,6 +1,7 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from .validation import validation
 from .forms.form_csv import FormValidator
+import pandas as pd
 
 def upload(request):
     name, size = '', 0
@@ -11,7 +12,12 @@ def upload(request):
     form = FormValidator(request.POST, request.FILES)
     validacao = {}
     if request.method == 'POST' and form.is_valid:
-        for linha in arquivo:
+        col = 'banco_origem agencia_origem conta_origem banco_destino agencia_destino conta_destino valor_da_transacao data_e_hora_da_transacao'.split()
+        df = pd.read_csv(arquivo, names=col)
+        df = df.dropna()
+        df = df.values.tolist()
+        print(df)
+        for linha in df:
             validation(linha, validacao)
             for x in validacao:
                 mensagem = validacao[x]
