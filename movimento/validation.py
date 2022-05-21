@@ -1,17 +1,14 @@
 from .models import ModeloMovimento
-from datetime import datetime
+from django.shortcuts import render
 
-def validation(linha, validacao):
-    data_inicio = None
-    data_transacao = None
-    data = datetime.fromisoformat(linha[7])
-    if data_inicio is None:
-        data_inicio = datetime.fromisoformat(linha[7])
-    if data_transacao is None:
-        data_transacao = ModeloMovimento.objects.dates('data_e_hora_da_transacao', 'year')
-    if data_inicio.date() in data_transacao:
-        validacao['index'] = 'Um arquivo com as mesmas datas e horarios já foi usado para upload!'
+def erro(request, validacao):
+    for x in validacao:
+        mensagem = validacao[x]
+        dados = {'form':mensagem}
+        return render(request, 'erro.html', dados)
 
+def validation(request, linha, validacao, data, data_inicio):
+    
     banco = ModeloMovimento(
         banco_origem = linha[0],
         agencia_origem = linha[1],
@@ -28,3 +25,4 @@ def validation(linha, validacao):
         banco.save()
     else:
         validacao['index'] = 'As datas não coincidem'
+        return erro(request, validacao)
