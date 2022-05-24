@@ -8,7 +8,7 @@ def erro(request, validacao):
         return render(request, 'erro.html', dados)
 
 def validation(request, linha, validacao, data, data_inicio):
-    
+
     banco = ModeloMovimento(
         banco_origem = linha[0],
         agencia_origem = linha[1],
