@@ -47,7 +47,6 @@ def upload(request):
     return render(request, 'upload.html', dados)
 
 def tabela(request):
-    data_publicacao = Arquivo.objects.filter('data_publicacao_banco')
-    data_transacao = Arquivo.objects.filter('data_transacao_banco')
-    dados = {'data_publicacao':data_publicacao, 'data_transacao':data_transacao}
+    datas = Arquivo.objects.all()
+    dados = {'datas':datas}
     return render(request, 'tabela.html', dados)

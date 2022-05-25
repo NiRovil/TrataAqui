@@ -7,7 +7,9 @@
     <title>Arquivos</title>
 </head>
 <body>
-    {{data_publicacao}}
-    {{data_transacao}}
+    {% for data in datas %}
+        {{data.data_publicacao_banco}}
+        {{data.data_transacao_banco}}
+    {% endfor %}
 </body>
 </html>
