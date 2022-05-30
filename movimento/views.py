@@ -1,9 +1,15 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .validation import validation, erro
 from .forms.form_csv import FormValidator
 import pandas as pd
 from datetime import datetime
 from .models import ModeloMovimento, Arquivo
+from django.contrib import messages
+from django.contrib.auth.models import User
+from random import randint
+
+def index(request):
+    return render(request, 'index.html')
 
 def upload(request):
     name, size = '', 0
@@ -50,3 +56,29 @@ def tabela(request):
     datas = Arquivo.objects.all()
     dados = {'datas':datas}
     return render(request, 'tabela.html', dados)
+
+def login(request):
+    return render(request, 'login.html')
+
+def cadastro(request):
+    if request.method == 'POST':
+        nome = request.POST['nome']
+        email = request.POST['email']
+        senha_gerada = [randint(0,9), randint(0,9), randint(0,9), randint(0,9), randint(0,9), randint(0,9)]
+        senha = ''.join([str(i) for i in senha_gerada])
+        if not nome.strip():
+            messages.error(request, 'O nome não pode estar em branco!')
+            return redirect('cadastro')
+        if not email.strip():
+            messages.error(request, 'O email não pode estar em branco!')
+            return redirect('cadastro')
+        if User.objects.filter(email=email).exists():
+            messages.error(request, 'Usuário já cadastrado!')
+            return redirect('cadastro')
+        user = User.objects.create_user(username=nome, email=email, password=senha)
+        user.save()
+        print(senha)
+        messages.success(request, 'Usuário cadastrado com sucesso! Sua senha é {}'.format(senha))
+        return redirect('login')
+    else:
+        return render(request, 'cadastro.html')

@@ -7,9 +7,23 @@
     <title>Arquivos</title>
 </head>
 <body>
-    {% for data in datas %}
-        {{data.data_publicacao_banco}}
-        {{data.data_transacao_banco}}
-    {% endfor %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Data da publicacao</th>
+                <th scope="col">Data das transacoes</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for data in datas %}
+            <tr>
+                <th scope="row">{{data.id}}</th>
+                <td>{{data.data_publicacao_banco}}</td>
+                <td>{{data.data_transacao_banco}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </body>
 </html>
