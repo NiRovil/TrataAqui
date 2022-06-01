@@ -9,9 +9,15 @@
 <body>
     <div class="classynav">
         <ul>
-            <li><a href="{% url 'index' %}">Home</a></li>
+            {% if user.is_authenticated %}
+            {% if user.is_superuser %}
+            <li><a href="{% url 'admin:index' %}">Admin Page</a></li>
+            {% endif %}
+            <li><a href="{% url 'upload' %}">Upload</a></li>
+            {% else %}
             <li><a href="{% url 'cadastro' %}">Cadastro</a></li>
             <li><a href="{% url 'login' %}">Login</a></li>
+            {% endif %}
         </ul>
 </body>
 </html>

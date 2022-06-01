@@ -1,18 +1,28 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'upload.css' %}">
     <title>Upload</title>
 </head>
-<body>
-    <form action="{% url 'upload' %}" method="POST" class="ui form" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{form}}
-        <button type="submit" name="arquivo" class="ui button primary">Confirm</button>
-    </form>
-    <h5>{{name}}</h5>
-    <h5>{{size}} KB's</h5>
+    <body>
+    <div class="col-md-6 offset-md-3 mt-5">
+        <h1>Tratamento CSV</h1>
+        <hr>
+        <form action="{% url 'upload' %}" method="POST" class="ui form" enctype="multipart/form-data">
+            <div class="form-group mt-3">
+                {% csrf_token %}
+                {{form}}
+            </div>
+        <hr>
+            <button type="submit" name="arquivo" class="btn btn-primary">Confirma</button>
+        </form>
+    </div> 
+    <div class="copyright">
+        By <a href="https://github.com/NiRovil">Nicolas Vilela</a>.
+    </div>
 </body>
 </html>

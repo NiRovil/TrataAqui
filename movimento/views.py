@@ -7,6 +7,8 @@ from .models import ModeloMovimento, Arquivo
 from django.contrib import messages
 from django.contrib.auth.models import User
 from random import randint
+from django.core.mail import send_mail
+from django.contrib.auth import authenticate, login as login_auth, logout as logout_auth
 
 def index(request):
     return render(request, 'index.html')
@@ -58,6 +60,15 @@ def tabela(request):
     return render(request, 'tabela.html', dados)
 
 def login(request):
+    if request.method == 'POST':
+        email = request.POST['email_login']
+        senha = request.POST['senha_login']
+        if User.objects.filter(email=email).exists():
+            usuario = User.objects.filter(email=email).values_list('username', flat=True).get()
+            user = authenticate(request, username=usuario, password=senha)
+            if user is not None:
+                login_auth(request, user)
+                return redirect('index')
     return render(request, 'login.html')
 
 def cadastro(request):
@@ -76,9 +87,9 @@ def cadastro(request):
             messages.error(request, 'Usuário já cadastrado!')
             return redirect('cadastro')
         user = User.objects.create_user(username=nome, email=email, password=senha)
+        send_mail('Senha da sua conta Tratamento CSV!', 'Guarde bem a sua senha: {}'.format(senha), 'sendemailtratamentocsv@gmail.com', [email], fail_silently=False)
         user.save()
-        print(senha)
-        messages.success(request, 'Usuário cadastrado com sucesso! Sua senha é {}'.format(senha))
+        messages.success(request, 'Usuário cadastrado com sucesso!')
         return redirect('login')
     else:
         return render(request, 'cadastro.html')

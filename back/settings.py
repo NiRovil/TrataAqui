@@ -120,6 +120,7 @@ USE_I18N = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
+# Identifica onde encontrar os arquivos estáticos.
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATICFILES_DIRS = [
@@ -133,3 +134,13 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'csv')
 MEDIA_URL = '/csv/'
+
+# Definindo as configurações para envio de senha por email.
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'sendemailtratamentocsv@gmail.com'
+EMAIL_HOST_PASSWORD = 'eovsjpjkszafzjdm'
+DEFAULT_FROM_EMAIL = 'default from email'
