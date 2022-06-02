@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from .validation import validation, erro
 from .forms.form_csv import FormValidator
 import pandas as pd
@@ -22,6 +22,7 @@ def upload(request):
     form = FormValidator(request.POST, request.FILES)
     validacao = {}
     if request.method == 'POST' and form.is_valid:
+        user = get_object_or_404(User, pk=request.user.id)
         col = 'banco_origem agencia_origem conta_origem banco_destino agencia_destino conta_destino valor_da_transacao data_e_hora_da_transacao'.split()
         df = pd.read_csv(arquivo, names=col)
         df = df.dropna()
@@ -44,13 +45,13 @@ def upload(request):
             return erro(request, validacao)
         else:
             banco = Arquivo(
+                usuario = user,
                 data_transacao_banco = data_inicio
             )
             banco.save()
         
-
         for linha in df:
-            validation(request, linha, validacao, data, data_inicio)
+            validation(request, linha, validacao, data, data_inicio, user)
     dados = {'form':form, 'name':name, 'size':size}
     return render(request, 'upload.html', dados)
 
