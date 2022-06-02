@@ -13,11 +13,16 @@
             {% if user.is_superuser %}
             <li><a href="{% url 'admin:index' %}">Admin Page</a></li>
             {% endif %}
+            <li><a href="{% url 'logout' %}">Logout</a></li>
             <li><a href="{% url 'upload' %}">Upload</a></li>
             {% else %}
             <li><a href="{% url 'cadastro' %}">Cadastro</a></li>
             <li><a href="{% url 'login' %}">Login</a></li>
             {% endif %}
+            <li><a href="{% url 'importacoes' %}">Tabela</a></li>
         </ul>
+        <div class="copyright">
+            By <a href="https://github.com/NiRovil">Nicolas Vilela</a>.
+        </div>
 </body>
 </html>

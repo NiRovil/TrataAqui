@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arquivos</title>
+</head>
+<body>
+    <ul>
+        <div class="classynav">
+            <li><a href="{% url 'index' %}">Home Page</a></li>
+            <li><a href="{% url 'upload' %}">Upload</a></li>   
+            <li><a href="{% url 'logout' %}">Logout</a></li>         
+        </div>
+    </ul>
+    <div>
+        <ul>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">Data da publicacao</th>
+                        <th scope="col">Data das transacoes</th>
+                        <th scope="col">Usuário</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for data in datas %}
+                    <tr>
+                        <th scope="row">{{data.id}}</th>
+                        <td>{{data.data_publicacao_banco}}</td>
+                        <td>{{data.data_transacao_banco}}</td>
+                        <td>{{data.usuario}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </ul>    
+    </div>
+    <div class="copyright">
+        By <a href="https://github.com/NiRovil">Nicolas Vilela</a>.
+    </div>
+</body>
+</html>

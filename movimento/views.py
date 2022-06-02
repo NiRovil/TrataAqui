@@ -9,10 +9,12 @@ from django.contrib.auth.models import User
 from random import randint
 from django.core.mail import send_mail
 from django.contrib.auth import authenticate, login as login_auth, logout as logout_auth
+from django.contrib.auth.decorators import login_required
 
 def index(request):
     return render(request, 'index.html')
 
+@login_required
 def upload(request):
     name, size = '', 0
     for filename, file in request.FILES.items():
@@ -55,10 +57,10 @@ def upload(request):
     dados = {'form':form, 'name':name, 'size':size}
     return render(request, 'upload.html', dados)
 
-def tabela(request):
+def importacoes(request):
     datas = Arquivo.objects.all()
     dados = {'datas':datas}
-    return render(request, 'tabela.html', dados)
+    return render(request, 'importacoes.html', dados)
 
 def login(request):
     if request.method == 'POST':
@@ -71,6 +73,10 @@ def login(request):
                 login_auth(request, user)
                 return redirect('index')
     return render(request, 'login.html')
+
+def logout(request):
+    logout_auth(request)
+    return redirect('index')
 
 def cadastro(request):
     if request.method == 'POST':

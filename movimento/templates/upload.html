@@ -9,20 +9,27 @@
     <title>Upload</title>
 </head>
     <body>
-    <div class="col-md-6 offset-md-3 mt-5">
-        <h1>Tratamento CSV</h1>
-        <hr>
-        <form action="{% url 'upload' %}" method="POST" class="ui form" enctype="multipart/form-data">
-            <div class="form-group mt-3">
-                {% csrf_token %}
-                {{form}}
-            </div>
-        <hr>
-            <button type="submit" name="arquivo" class="btn btn-primary">Confirma</button>
-        </form>
-    </div> 
-    <div class="copyright">
-        By <a href="https://github.com/NiRovil">Nicolas Vilela</a>.
-    </div>
-</body>
+        <ul>
+            <div class="classynav">
+                <li><a href="{% url 'index' %}">Home Page</a></li>
+                <li><a href="{% url 'importacoes' %}">Tabela</a></li>
+                <li><a href="{% url 'logout' %}">Logout</a></li>
+            </div>    
+        </ul>
+        <div class="col-md-6 offset-md-3 mt-5">
+            <h1>Tratamento CSV</h1>
+            <hr>
+            <form action="{% url 'upload' %}" method="POST" class="ui form" enctype="multipart/form-data">
+                <div class="form-group mt-3">
+                    {% csrf_token %}
+                    {{form}}
+                </div>
+            <hr>
+                <button type="submit" name="arquivo" class="btn btn-primary">Confirma</button>
+            </form>
+        </div> 
+        <div class="copyright">
+            By <a href="https://github.com/NiRovil">Nicolas Vilela</a>.
+        </div>
+    </body>
 </html>
