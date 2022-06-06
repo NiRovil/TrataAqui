@@ -9,5 +9,6 @@ urlpatterns = [
     path('importacoes/', views.importacoes, name='importacoes'),
     path('cadastro/', views.cadastro, name='cadastro'),
     path('login/', views.login, name='login'),
-    path('accounts/login/', views.login, name='acclogin')
+    path('accounts/login/', views.login, name='acclogin'),
+    path('detalhes/<username>', views.detalhes, name='detalhes')
 ]

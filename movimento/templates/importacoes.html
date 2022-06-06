@@ -31,7 +31,7 @@
                         <th scope="row">{{data.id}}</th>
                         <td>{{data.data_publicacao_banco}}</td>
                         <td>{{data.data_transacao_banco}}</td>
-                        <td>{{data.usuario}}</td>
+                        <li><td><a href="/detalhes/{{data.usuario}}" name="usuario">{{data.usuario}}</a></td></li>
                     </tr>
                     {% endfor %}
                 </tbody>

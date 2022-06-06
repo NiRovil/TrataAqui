@@ -62,6 +62,14 @@ def importacoes(request):
     dados = {'datas':datas}
     return render(request, 'importacoes.html', dados)
 
+def detalhes(request, username):
+    if request.method == 'GET':
+        arquivo_importado = ModeloMovimento.objects.order_by('data_e_hora_da_transacao').filter(usuario__icontains=username)
+        pessoa_importou = Arquivo.objects.order_by('data_transacao_banco').get(usuario__icontains=username)
+        print(arquivo_importado)
+        print(pessoa_importou)
+        return render('detalhe.html')
+
 def login(request):
     if request.method == 'POST':
         email = request.POST['email_login']
