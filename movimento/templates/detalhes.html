@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>Detalhes</title>
+</head>
+<body>
+    <ul>
+        <div class="classynav">
+            <a href="{% url 'importacoes' %}"><button type="button" class="btn btn-dark">Voltar</button></a>
+        </div>
+    </ul>
+</body>
+<body>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th scope="col" colspan="3" >Origem</th>
+                <th scope="col" colspan="3">Destino</th>
+                <th scope="col" rowspan="2">Valor</th>
+            </tr>
+        </thead>
+        <thead>
+            <tr>
+                <th scope="col">Banco Origem</th>
+                <th scope="col">Agencia Origem</th>
+                <th scope="col">Conta Origem</th>
+                <th scope="col">Banco Destino</th>
+                <th scope="col">Agencia Destino</th>
+                <th scope="col">Conta Destino</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for x in arquivo %}
+            <tr>
+                <td>{{x.banco_origem}}</td>
+                <td>{{x.agencia_origem}}</td>
+                <td>{{x.conta_origem}}</td>
+                <td>{{x.banco_destino}}</td>
+                <td>{{x.agencia_destino}}</td>
+                <td>{{x.conta_destino}}</td>
+                <td>{{x.valor_da_transacao}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
