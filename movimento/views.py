@@ -3,7 +3,7 @@ from .validation import validation, erro
 from .forms.form_csv import FormValidator
 import pandas as pd
 from datetime import datetime
-from .models import ModeloMovimento, Arquivo
+from .models import Arquivo, ModeloMovimento
 from django.contrib import messages
 from django.contrib.auth.models import User
 from random import randint
@@ -54,6 +54,7 @@ def upload(request):
         
         for linha in df:
             validation(request, linha, validacao, data, data_inicio, user)
+
     dados = {'form':form, 'name':name, 'size':size}
     return render(request, 'upload.html', dados)
 
@@ -64,14 +65,15 @@ def importacoes(request):
 
 def detalhes(request, username):
     if request.method == 'GET':
-        arquivo_importado = ModeloMovimento.objects.order_by('data_e_hora_da_transacao').filter(usuario__icontains=username)
-        pessoa_importou = Arquivo.objects.order_by('data_transacao_banco').get(usuario__icontains=username)  
-        dados = {
-            'arquivo':arquivo_importado,
-            'pessoa':pessoa_importou
-        }
+        importacao = Arquivo.objects.get(usuario=username)
+        transacoes = ModeloMovimento.objects.filter(usuario=User.get_username)
         
+        dados = {
+            'trasacoes':transacoes,
+        }
+            
         return render(request, 'detalhes.html', dados)
+
 
 def login(request):
     if request.method == 'POST':
