@@ -65,13 +65,13 @@ def importacoes(request):
 
 def detalhes(request, username):
     if request.method == 'GET':
-        importacao = Arquivo.objects.get(usuario=username)
-        transacoes = ModeloMovimento.objects.filter(usuario=User.get_username)
-        
+        arquivo_importado = ModeloMovimento.objects.order_by('data_e_hora_da_transacao').filter(usuario=username)
+        pessoa_importou = Arquivo.objects.order_by('data_transacao_banco').get(usuario=username)
         dados = {
-            'trasacoes':transacoes,
+            'arquivo':arquivo_importado,
+            'pessoa':pessoa_importou
         }
-            
+
         return render(request, 'detalhes.html', dados)
 
 
@@ -107,7 +107,7 @@ def cadastro(request):
             messages.error(request, 'Usuário já cadastrado!')
             return redirect('cadastro')
         user = User.objects.create_user(username=nome, email=email, password=senha)
-        send_mail('Senha da sua conta Tratamento CSV!', 'Guarde bem a sua senha: {}'.format(senha), 'sendemailtratamentocsv@gmail.com', [email], fail_silently=False)
+        send_mail(f'Senha da sua conta Tratamento CSV!', 'Guarde bem a sua senha: {senha}', 'sendemailtratamentocsv@gmail.com', [email], fail_silently=False)
         user.save()
         messages.success(request, 'Usuário cadastrado com sucesso!')
         return redirect('login')
