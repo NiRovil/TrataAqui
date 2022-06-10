@@ -1,5 +1,5 @@
-from .models import ModeloMovimento
-from django.shortcuts import render
+from .models import Movimentos
+from django.shortcuts import get_object_or_404, render
 
 def erro(request, validacao):
     for x in validacao:
@@ -7,9 +7,9 @@ def erro(request, validacao):
         dados = {'form':mensagem}
         return render(request, 'erro.html', dados)
 
-def validation(request, linha, validacao, data, data_inicio, user):
-    banco = ModeloMovimento(
-        usuario = user,
+def validation(request, linha, validacao, data, data_inicio, lancamento):
+    banco = Movimentos(
+        ordem_lancamento = lancamento,
         banco_origem = linha[0],
         agencia_origem = linha[1],
         conta_origem = linha[2],
@@ -23,6 +23,7 @@ def validation(request, linha, validacao, data, data_inicio, user):
     if data.date() == data_inicio.date():
         banco.full_clean()
         banco.save()
+
     else:
         validacao['index'] = 'As datas não coincidem'
         return erro(request, validacao)

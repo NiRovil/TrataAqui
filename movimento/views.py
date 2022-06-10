@@ -1,9 +1,9 @@
-from django.shortcuts import get_object_or_404, render, redirect
+from django.shortcuts import render, redirect
 from .validation import validation, erro
 from .forms.form_csv import FormValidator
 import pandas as pd
 from datetime import datetime
-from .models import Arquivo, ModeloMovimento
+from .models import Lancamento, Movimentos
 from django.contrib import messages
 from django.contrib.auth.models import User
 from random import randint
@@ -24,7 +24,6 @@ def upload(request):
     form = FormValidator(request.POST, request.FILES)
     validacao = {}
     if request.method == 'POST' and form.is_valid:
-        user = get_object_or_404(User, pk=request.user.id)
         col = 'banco_origem agencia_origem conta_origem banco_destino agencia_destino conta_destino valor_da_transacao data_e_hora_da_transacao'.split()
         df = pd.read_csv(arquivo, names=col)
         df = df.dropna()
@@ -41,39 +40,37 @@ def upload(request):
         if data_inicio is None:
             data_inicio = datetime.fromisoformat(df[0][7])
         if data_transacao is None:
-            data_transacao = ModeloMovimento.objects.dates('data_e_hora_da_transacao', 'year')
+            data_transacao = Movimentos.objects.dates('data_e_hora_da_transacao', 'day')
         if data_inicio.date() in data_transacao:
             validacao['index'] = 'Um arquivo com as mesmas datas e horarios já foi usado para upload!'
             return erro(request, validacao)
-        else:
-            banco = Arquivo(
+        user = request.user
+        lancamento = Lancamento.objects.create(
                 usuario = user,
                 data_transacao_banco = data_inicio
             )
-            banco.save()
         
         for linha in df:
-            validation(request, linha, validacao, data, data_inicio, user)
+            validation(request, linha, validacao, data, data_inicio, lancamento)
+        
+        lancamento.save()
 
     dados = {'form':form, 'name':name, 'size':size}
     return render(request, 'upload.html', dados)
 
 def importacoes(request):
-    datas = Arquivo.objects.all()
+    datas = Lancamento.objects.all()
     dados = {'datas':datas}
     return render(request, 'importacoes.html', dados)
 
 def detalhes(request, username):
     if request.method == 'GET':
-        arquivo_importado = ModeloMovimento.objects.order_by('data_e_hora_da_transacao').filter(usuario=username)
-        pessoa_importou = Arquivo.objects.order_by('data_transacao_banco').get(usuario=username)
+        arquivo_importado = Movimentos.objects.order_by('data_e_hora_da_transacao').filter(ordem_lancamento_id=username)
         dados = {
             'arquivo':arquivo_importado,
-            'pessoa':pessoa_importou
         }
 
         return render(request, 'detalhes.html', dados)
-
 
 def login(request):
     if request.method == 'POST':
@@ -107,7 +104,7 @@ def cadastro(request):
             messages.error(request, 'Usuário já cadastrado!')
             return redirect('cadastro')
         user = User.objects.create_user(username=nome, email=email, password=senha)
-        send_mail(f'Senha da sua conta Tratamento CSV!', 'Guarde bem a sua senha: {senha}', 'sendemailtratamentocsv@gmail.com', [email], fail_silently=False)
+        send_mail('Senha da sua conta Tratamento CSV!', 'Guarde bem a sua senha: {}'.format(senha), 'sendemailtratamentocsv@gmail.com', [email], fail_silently=False)
         user.save()
         messages.success(request, 'Usuário cadastrado com sucesso!')
         return redirect('login')
