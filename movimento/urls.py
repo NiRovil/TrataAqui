@@ -10,5 +10,6 @@ urlpatterns = [
     path('cadastro/', views.cadastro, name='cadastro'),
     path('login/', views.login, name='login'),
     path('accounts/login/', views.login, name='acclogin'),
-    path('detalhes/<username>', views.detalhes, name='detalhes')
+    path('detalhes/<username>', views.detalhes, name='detalhes'),
+    path('analise/', views.analise, name='analise')
 ]

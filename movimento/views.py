@@ -1,9 +1,10 @@
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from .validation import validation, erro
+from .validation import *
 from .forms.form_csv import FormValidator
 import pandas as pd
 from datetime import datetime
-from .models import Lancamento, Movimentos
+from .models import *
 from django.contrib import messages
 from django.contrib.auth.models import User
 from random import randint
@@ -110,3 +111,23 @@ def cadastro(request):
         return redirect('login')
     else:
         return render(request, 'cadastro.html')
+
+def analise(request):
+    dados = None
+    movimentos_suspeitos = []
+    transacao = 100000
+    movimentacao = 1000000
+    movimentacao_bancaria = 1000000000
+    arquivo = Movimentos.objects.all()
+    for item in arquivo:
+        valor = item.valor_da_transacao
+        if transacao <= valor < movimentacao:
+            movimentos_suspeitos = movimentos_suspeitos
+            retorno = transacao_suspeita(request, movimentos_suspeitos)
+            return retorno
+        """ if movimentacao <= valor < movimentacao_bancaria:
+            movimentos_suspeitos[1] = valor
+        if valor >= movimentacao_bancaria:
+            movimentos_suspeitos[2] = valor """
+    
+    dados = {'transacao':retorno.dados}
