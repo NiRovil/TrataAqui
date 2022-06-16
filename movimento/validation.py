@@ -1,24 +1,13 @@
 from .models import Movimentos
 from django.shortcuts import render
 
-def transacao_suspeita(request, movimentos_suspeitos):
-    suspeitos = movimentos_suspeitos[0]
-    dados = {'transacao_suspeita':suspeitos}
-    return render(request, dados)
-
-""" def movimentacao_suspeita(request, movimentos_suspeitos):
+def analise_sus(movimentos_suspeitos):
+    index = 0
+    valor = []
     for x in movimentos_suspeitos:
-        if x == 'movimentacao_suspeita':
-            suspeitos = movimentos_suspeitos[x]
-            dados = {'movimentacao_suspeita':suspeitos}
-            return render(request, dados)
-
-def movimentacao_bancaria_suspeita(request, movimentos_suspeitos):
-    for x in movimentos_suspeitos:
-        if x == 'movimentacao_bancaria_suspeita':
-            suspeitos = movimentos_suspeitos[x]
-            dados = {'movimentacao_bancaria_suspeita':suspeitos}
-            return render(request, dados) """
+        valor[index] = movimentos_suspeitos[x]
+        index += 1
+    return valor
 
 def erro(request, validacao):
     for x in validacao:

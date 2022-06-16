@@ -41,7 +41,7 @@ def upload(request):
         if data_inicio is None:
             data_inicio = datetime.fromisoformat(df[0][7])
         if data_transacao is None:
-            data_transacao = Movimentos.objects.dates('data_e_hora_da_transacao', 'day')
+            data_transacao = Movimentos.objects.dates('data_e_hora_da_transacao', 'year')
         if data_inicio.date() in data_transacao:
             validacao['index'] = 'Um arquivo com as mesmas datas e horarios já foi usado para upload!'
             return erro(request, validacao)
@@ -113,8 +113,7 @@ def cadastro(request):
         return render(request, 'cadastro.html')
 
 def analise(request):
-    dados = None
-    movimentos_suspeitos = []
+    movimentos_suspeitos = {}
     transacao = 100000
     movimentacao = 1000000
     movimentacao_bancaria = 1000000000
@@ -122,12 +121,11 @@ def analise(request):
     for item in arquivo:
         valor = item.valor_da_transacao
         if transacao <= valor < movimentacao:
-            movimentos_suspeitos = movimentos_suspeitos
-            retorno = transacao_suspeita(request, movimentos_suspeitos)
-            return retorno
-        """ if movimentacao <= valor < movimentacao_bancaria:
-            movimentos_suspeitos[1] = valor
+            movimentos_suspeitos['transacao'] = valor
+        if movimentacao <= valor < movimentacao_bancaria:
+            movimentos_suspeitos['movimentacao'] = valor
         if valor >= movimentacao_bancaria:
-            movimentos_suspeitos[2] = valor """
+            movimentos_suspeitos['movimentacao_bancaria'] = valor
     
-    dados = {'transacao':retorno.dados}
+    dados = {'movimentos':analise_sus(movimentos_suspeitos)}
+    return render(request, 'analise.html', dados)
