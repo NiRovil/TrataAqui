@@ -16,11 +16,12 @@
             {% endif %}
             <a href="{% url 'logout' %}"><button type="button" class="btn btn-dark">Logout</button></a>
             <a href="{% url 'upload' %}"><button type="button" class="btn btn-dark">Upload</button></a>
+            <a href="{% url 'analise' %}"><button type="button" class="btn btn-dark">Analise</button></a>
             {% else %}
             <a href="{% url 'cadastro' %}"><button type="button" class="btn btn-dark">Cadastro</button></a>
             <a href="{% url 'login' %}"><button type="button" class="btn btn-dark">Login</button></a>
             {% endif %}
-            <a href="{% url 'importacoes' %}"><button type="button" class="btn btn-dark">Tabela</button></a>
+            <a href="{% url 'importacoes' %}"><button type="button" class="btn btn-dark">Importacoes</button></a>
         </ul>
         <div class="copyright">
             By <a href="https://github.com/NiRovil">Nicolas Vilela</a>.

@@ -4,11 +4,71 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Analise Movimentos</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>Analise</title>
 </head>
 <body>
-    {% for valor in movimentos %}
-    {{valor}}
-    {% endfor %}
+    <ul>
+        <div class="classynav">
+            <a href="{% url 'index' %}"><button type="button" class="btn btn-dark">Home Page</button></a>
+            <a href="{% url 'upload' %}"><button type="button" class="btn btn-dark">Upload</button></a>
+            <a href="{% url 'logout' %}"><button type="button" class="btn btn-dark">Logout</button></a> 
+            <a href="{% url 'importacoes' %}"><button type="button" class="btn btn-dark">Importacoes</button></a>      
+        </div>
+    </ul>
+    <div>
+        <ul>
+            <table class="table table-striped">
+                {% if transacao != '' %}
+                <thead>
+                    <h1>Transacoes Suspeitas</h1>
+                    <tr>
+                        <th scope="col">Banco Origem</th>
+                        <th scope="col">Valor Suspeito</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{transacao.1}}</td>
+                        <td>{{transacao.0}}</td>
+                    </tr>
+                </tbody>
+                {% endif %}
+                {% if movimentacao != '' %}
+                <thead>
+                    <h1>Contas Suspeitas</h1>
+                    <tr>
+                        <th scope="col">Banco Origem</th>
+                        <th scope="col">Valor Suspeito</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{movimentacao.1}}</td>
+                        <td>{{movimentacao.0}}</td>
+                    </tr>
+                </tbody>
+                {% endif %}
+                {% if movimentacao_bancaria != '' %}
+                <thead>
+                    <h1>Agências Suspeitas</h1>
+                    <tr>
+                        <th scope="col">Banco Origem</th>
+                        <th scope="col">Valor Suspeito</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{movimentacao_bancaria.1}}</td>
+                        <td>{{movimentacao_bancaria.0}}</td>
+                    </tr>
+                </tbody>
+                {% endif %}
+            </table>
+        </ul>    
+    </div>
+    <div class="copyright">
+        By <a href="https://github.com/NiRovil">Nicolas Vilela</a>.
+    </div>
 </body>
 </html>

@@ -2,11 +2,9 @@ from .models import Movimentos
 from django.shortcuts import render
 
 def analise_sus(movimentos_suspeitos):
-    index = 0
     valor = []
     for x in movimentos_suspeitos:
-        valor[index] = movimentos_suspeitos[x]
-        index += 1
+        valor.append(movimentos_suspeitos[x])
     return valor
 
 def erro(request, validacao):

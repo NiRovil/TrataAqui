@@ -117,15 +117,24 @@ def analise(request):
     transacao = 100000
     movimentacao = 1000000
     movimentacao_bancaria = 1000000000
-    arquivo = Movimentos.objects.all()
+    arquivo = Movimentos.objects.filter(valor_da_transacao__gte = transacao)
     for item in arquivo:
+        rb = None
         valor = item.valor_da_transacao
         if transacao <= valor < movimentacao:
+            banco = item.banco_origem
             movimentos_suspeitos['transacao'] = valor
+            movimentos_suspeitos['banco'] = banco
+            rt = analise_sus(movimentos_suspeitos)
         if movimentacao <= valor < movimentacao_bancaria:
-            movimentos_suspeitos['movimentacao'] = valor
+            banco = item.banco_origem
+            movimentos_suspeitos['transacao'] = valor
+            movimentos_suspeitos['banco'] = banco           
+            rm = analise_sus(movimentos_suspeitos)
         if valor >= movimentacao_bancaria:
-            movimentos_suspeitos['movimentacao_bancaria'] = valor
+            banco = item.banco_origem
+            movimentos_suspeitos['transacao'] = valor
+            movimentos_suspeitos['banco'] = banco
+            rb = analise_sus(movimentos_suspeitos)
     
-    dados = {'movimentos':analise_sus(movimentos_suspeitos)}
-    return render(request, 'analise.html', dados)
+    return render(request, 'analise.html', {'transacao':rt, 'movimentacao':rm, 'movimentacao_bancaria':rb})
