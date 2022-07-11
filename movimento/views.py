@@ -1,4 +1,3 @@
-from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from .validation import *
 from .forms.form_csv import FormValidator
@@ -123,8 +122,16 @@ def analise(request):
         valor = item.valor_da_transacao
         if transacao <= valor < movimentacao:
             banco = item.banco_origem
+            agencia = item.agencia_origem
+            conta = item.conta_origem
+            banco_dest = item.banco_destino
+            conta_dest = item.conta_destino
             movimentos_suspeitos['transacao'] = valor
             movimentos_suspeitos['banco'] = banco
+            movimentos_suspeitos['agencia'] = agencia
+            movimentos_suspeitos['conta'] = conta
+            movimentos_suspeitos['banco_dest'] = banco_dest
+            movimentos_suspeitos['conta_dest'] = conta_dest
             rt = analise_sus(movimentos_suspeitos)
         if movimentacao <= valor < movimentacao_bancaria:
             banco = item.banco_origem
