@@ -20,8 +20,7 @@
         <ul>
             <h1>Transacoes Suspeitas</h1>
             <table class="table table-bordered">
-                {% if transacao != '' %}
-
+                
                 <thead>
                     <thead>
                         <tr>   
@@ -41,50 +40,19 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>{{transacao.1}}</td>
-                            <td>{{transacao.2}}</td>
-                            <td>{{transacao.3}}</td>
-                            <td>{{transacao.4}}</td>
-                            <td>{{transacao.5}}</td>
-                            <td>{{transacao.0}}</td>
+                            {% for x in transacoes_suspeitas %}
+                            <td>{{x.valor_da_transacao}}</td>
+                            {% endfor %}
+                            {% for x in contas_suspeitas %}
+                            <td>{{x.valor_movimentado}}</td>
+                            {% endfor %}
+                            {% for x in agencias_suspeitas %}
+                            <td>{{x.valor_movimentado}}</td>
+                            {% endfor %}
                         </tr>
                     </tbody>
                 </thead>
-                {% endif %}
-            </table>
-            <table class="table table-striped">
-                {% if movimentacao != '' %}
-                <h1>Contas Suspeitas</h1>
-                <thead>
-                    <tr>
-                        <th scope="col">Banco Origem</th>
-                        <th scope="col">Valor Suspeito</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>{{movimentacao.1}}</td>
-                        <td>{{movimentacao.0}}</td>
-                    </tr>
-                </tbody>
-                {% endif %}
-            </table>
-            <table class="table table-striped">
-                {% if movimentacao_bancaria != '' %}
-                <thead>
-                    <h1>Agências Suspeitas</h1>
-                    <tr>
-                        <th scope="col">Banco Origem</th>
-                        <th scope="col">Valor Suspeito</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>{{movimentacao_bancaria.1}}</td>
-                        <td>{{movimentacao_bancaria.0}}</td>
-                    </tr>
-                </tbody>
-                {% endif %}
+                
             </table>
         </ul>    
     </div>

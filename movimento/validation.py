@@ -1,11 +1,60 @@
 from .models import Movimentos
 from django.shortcuts import render
+from django.db.models import Sum
 
-def analise_sus(movimentos_suspeitos):
-    valor = []
-    for x in movimentos_suspeitos:
-        valor.append(movimentos_suspeitos[x])
-    return valor
+def transacoes_suspeitas(request):
+    transacoes_suspeitas = Movimentos.objects.filter(valor_da_transacao__gte=100_000)
+    return transacoes_suspeitas
+
+def contas_suspeitas(request):
+    transacoes = Movimentos.objects.all()
+
+    conta_origem = (transacoes.values(
+        'banco_origem', 'agencia_origem', 'conta_origem'
+    ).annotate(
+        valor_movimentado=Sum('valor_da_transacao'),
+    ).filter(valor_movimentado__gt=1_000_000))
+
+    conta_destino = (transacoes.values(
+        'banco_destino', 'agencia_destino', 'conta_destino'
+    ).annotate(
+        valor_movimentado=Sum('valor_da_transacao')
+    ).filter(valor_movimentado__gt=1_000_000))
+
+    for conta in conta_origem:
+        conta.update({'movimento':'Saída'})
+    
+    for conta in conta_destino:
+        conta.update({'movimento':'Entrada'})
+    
+    contas_suspeitas = list(conta_origem) + list(conta_destino)
+
+    return contas_suspeitas
+
+def agencias_suspeitas(request):
+    transacoes = Movimentos.objects.all()
+
+    agencia_origem = (transacoes.values(
+        'banco_origem', 'agencia_origem'
+    ).annotate(
+        valor_movimentado=Sum('valor_da_transacao')
+    ).filter(valor_movimentado__gt=1_000_000_000))
+
+    agencia_destino = (transacoes.values(
+        'banco_destino', 'agencia_destino'
+    ).annotate(
+        valor_movimentado=Sum('valor_da_transacao')
+    ).filter(valor_movimentado__gt=1_000_000_000))
+
+    for conta in agencia_origem:
+        conta.update({'movimento':'Saída'})
+    
+    for conta in agencia_destino:
+        conta.update({'movimento':'Entrada'})
+
+    agencias_suspeitas = list(agencia_origem) + list(agencia_destino)
+
+    return agencias_suspeitas
 
 def erro(request, validacao):
     for x in validacao:

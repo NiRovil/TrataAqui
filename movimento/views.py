@@ -112,36 +112,9 @@ def cadastro(request):
         return render(request, 'cadastro.html')
 
 def analise(request):
-    movimentos_suspeitos = {}
-    transacao = 100000
-    movimentacao = 1000000
-    movimentacao_bancaria = 1000000000
-    arquivo = Movimentos.objects.filter(valor_da_transacao__gte = transacao)
-    for item in arquivo:
-        rb = None
-        valor = item.valor_da_transacao
-        if transacao <= valor < movimentacao:
-            banco = item.banco_origem
-            agencia = item.agencia_origem
-            conta = item.conta_origem
-            banco_dest = item.banco_destino
-            conta_dest = item.conta_destino
-            movimentos_suspeitos['transacao'] = valor
-            movimentos_suspeitos['banco'] = banco
-            movimentos_suspeitos['agencia'] = agencia
-            movimentos_suspeitos['conta'] = conta
-            movimentos_suspeitos['banco_dest'] = banco_dest
-            movimentos_suspeitos['conta_dest'] = conta_dest
-            rt = analise_sus(movimentos_suspeitos)
-        if movimentacao <= valor < movimentacao_bancaria:
-            banco = item.banco_origem
-            movimentos_suspeitos['transacao'] = valor
-            movimentos_suspeitos['banco'] = banco           
-            rm = analise_sus(movimentos_suspeitos)
-        if valor >= movimentacao_bancaria:
-            banco = item.banco_origem
-            movimentos_suspeitos['transacao'] = valor
-            movimentos_suspeitos['banco'] = banco
-            rb = analise_sus(movimentos_suspeitos)
-    
-    return render(request, 'analise.html', {'transacao':rt, 'movimentacao':rm, 'movimentacao_bancaria':rb})
+    dados = {
+        'transacoes_suspeitas':transacoes_suspeitas(request),
+        'contas_suspeitas':contas_suspeitas(request),
+        'agencias_suspeitas':agencias_suspeitas(request)
+    }
+    return render(request, 'analise.html', dados)
