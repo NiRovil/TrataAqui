@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Movimentos
+from movimento.models import Movimentos
 
 class MovimentosRealizados(admin.ModelAdmin):
     

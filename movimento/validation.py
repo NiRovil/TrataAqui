@@ -81,4 +81,4 @@ def validation(request, linha, validacao, data, data_inicio, lancamento):
 
     else:
         validacao['index'] = 'As datas não coincidem'
-        return erro(request, validacao)   
+        return erro(request, validacao)
