@@ -8,6 +8,7 @@ class Lancamento(models.Model):
     data_transacao_banco = models.DateField(blank=False)
 
 class Movimentos(models.Model):
+    #ForeignKey cria um vínculo com o ID do lançamento, fazendo com que todos os itens do objeto sejam referenciados por esse ID.
     ordem_lancamento = models.ForeignKey(Lancamento, on_delete=models.CASCADE)
     banco_origem = models.CharField(max_length=30, blank=False)
     agencia_origem = models.CharField(max_length=30, blank=False)
