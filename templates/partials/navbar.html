@@ -1,0 +1,28 @@
+{% load static %}
+
+<div class="w3-top">
+    <div class="w3-bar w3-black w3-card">
+        {% if user.is_authenticated %}
+        {% if user.is_superuser %}
+        <a href="{% url 'admin:index' %}" class="w3-bar-item w3-button w3-padding-large">ADMIN</a>
+        {% endif %}
+        <a href="{% url 'upload' %}" class="w3-bar-item w3-button w3-padding-large">UPLOAD</a>
+        <a href="{% url 'analise' %}" class="w3-bar-item w3-button w3-padding-large">ANALISE GERAL</a>
+        <a href="{% url 'importacoes' %}" class="w3-bar-item w3-button w3-padding-large ">IMPORTAÇÕES</a>
+        {% else %}
+        <a href="{% url 'index' %}" class="w3-bar-item w3-button w3-padding-large">INICIO</a>
+        <a href="{% url 'cadastro' %}" class="w3-bar-item w3-button w3-padding-large">CADASTRO</a>
+        <a href="{% url 'login' %}" class="w3-show w3-bar-item w3-button w3-padding-large ">LOGIN</a>
+        {% endif %}
+        <div class="w3-dropdown-hover ">
+            {% if user.is_authenticated %}
+            <button class="w3-padding-large w3-button" title="More">MAIS <i class="fa fa-caret-down"></i></button>
+            <div class="w3-dropdown-content w3-bar-block w3-card-4">
+                <a href="{% url 'index' %}" class="w3-bar-item w3-button">Sobre o projeto</a>
+                <a href="{% url 'ajuda' %}" class="w3-bar-item w3-button">Ajuda</a>
+                <a href="{% url 'logout' %}" class="w3-bar-item w3-button">Logout</a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>

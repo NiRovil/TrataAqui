@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="w3-content" style="max-width:2000px;margin-top:46px">
+    <div class="w3-container w3-content w3-center w3-padding-64" style="max-width:800px" id="band">
+        {% include 'partials/alertas.html' %}
+        <h2 class="w3-wide">TrataAqui</h2>
+        <p class="w3-opacity"><i>Como usar</i></p>
+        <p class="w3-center">Para subir um arquivo CSV, use a aba upload.</p>
+        <p class="w3-center">Caso já tenha feito o upload, a aba análise listará todas as informações pertinentes do arquivo.</p>
+        <p class="w3-center">A aba importações mostra todos os arquivos importados até o presente momento.</p>
+        <p class="w3-center">Se quiser sair, clique em mais logo em seguida clique em logout.</p>
+    </div>
+</div>
+
+{% endblock %}

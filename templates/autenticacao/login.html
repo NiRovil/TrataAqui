@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="w3-content" style="max-width:2000px;margin-top:46px">
+    <div class="w3-container w3-content w3-center w3-padding-64" style="max-width:800px" id="band">
+        <form method="post" action="{% url 'login' %}">
+            {% include 'partials/alertas.html' %}
+            {% csrf_token %}
+            <h2>Login</h2>
+            <h3 class="w3-center">Seu email</h3>
+            <p> 
+                <input id="email_login" style="width: 400px;" name="email_login" required="required" type="text" placeholder="Digite seu email!"/>
+            </p>
+            <h3 class="w3-center">Sua senha</h3>
+            <p>
+                <input id="senha_login" style="width: 400px;" name="senha_login" required="required" type="password" placeholder="Digite sua senha!" /> 
+            </p>
+            <p>
+                <button type="submit" class="w3-button w3-white w3-border w3-border w3-round-large">Logar</button>
+            </p>
+        
+            <p class="link">
+                Ainda não tem conta?
+                <a href="{% url 'cadastro' %}">Cadastre-se</a>
+            </p>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

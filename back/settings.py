@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
-import os
+import os, sys
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -58,7 +58,7 @@ ROOT_URLCONF = 'back.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -125,7 +125,7 @@ USE_I18N = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'movimento/static')
+    os.path.join(BASE_DIR, 'templates/static')
 ]
 
 # Default primary key field type
@@ -133,8 +133,13 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'csv')
-MEDIA_URL = '/csv/'
+# Configurando as mensagens de erro e sucesso
+
+from django.contrib.messages import constants as messages
+MESSAGE_TAGS = {
+    messages.ERROR: 'red',
+    messages.SUCCESS: 'green'
+}
 
 # Definindo as configurações para envio de senha por email.
 
@@ -145,3 +150,6 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'sendemailtratamentocsv@gmail.com'
 EMAIL_HOST_PASSWORD = 'eovsjpjkszafzjdm'
 DEFAULT_FROM_EMAIL = 'default from email'
+
+PROJECT_ROOT = os.path.dirname(__file__)
+sys.path.insert(0, os.path.join(PROJECT_ROOT, '../apps'))

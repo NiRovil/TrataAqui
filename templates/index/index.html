@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="w3-content" style="max-width:2000px;margin-top:46px">
+    <div class="w3-container w3-content w3-center w3-padding-64" style="max-width:800px" id="band">
+        {% include 'partials/alertas.html' %}
+        <h2 class="w3-wide">TrataAqui</h2>
+        <p class="w3-opacity"><i>Sobre o Projeto</i></p>
+        <p class="w3-center">O projeto TrataAqui é uma aplicação web, construída em Python, usando o framework Django.</p>
+        <p class="w3-center">A aplicação consiste no tratamento de arquivos CSV e a armazenagem dos dados em banco de dados PostgreSQL.</p>
+        <h3 class="w3-wide">Back end</h3>
+        <li class="w3-center">
+            Python
+        </li>
+        <li class="w3-center">
+            Django
+        </li>
+        <h3 class="w3-wide">Front End</h3>
+        <li>
+            HTML/CSS
+        </li>
+        <h3 class="w3-wide">Recursos</h3>
+        <li class="w3-center">
+            Cadastrar usuários
+        </li>
+        <li class="w3-center">
+            Autenticação e login
+        </li>
+        <li class="w3-center">
+            Upload de arquivos CSV
+        </li>
+        <li class="w3-center">
+            Análise de importações
+        </li>
+        <li class="w3-center">
+            Análise de transações
+        </li>
+    </div>
+</div>
+
+{% endblock %}

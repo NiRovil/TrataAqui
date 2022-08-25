@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="w3-content" style="max-width:2000px;margin-top:46px">
+    <div class="w3-container w3-content w3-center w3-padding-64" style="max-width:800px" id="band">
+        <table class="w3-table w3-striped w3-border">
+            <thead>
+                <tr>
+                    <th scope="col">Banco Origem</th>
+                    <th scope="col">Agencia Origem</th>
+                    <th scope="col">Conta Origem</th>
+                    <th scope="col">Banco Destino</th>
+                    <th scope="col">Agencia Destino</th>
+                    <th scope="col">Conta Destino</th>
+                    <th scope="col">Valor</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for x in arquivo %}
+                <tr>
+                    <td>{{x.banco_origem}}</td>
+                    <td>{{x.agencia_origem}}</td>
+                    <td>{{x.conta_origem}}</td>
+                    <td>{{x.banco_destino}}</td>
+                    <td>{{x.agencia_destino}}</td>
+                    <td>{{x.conta_destino}}</td>
+                    <td>{{x.valor_da_transacao}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}
