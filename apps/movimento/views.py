@@ -47,6 +47,9 @@ def upload(request):
             validation(request, linha, validacao, data, data_inicio, lancamento)
         
         lancamento.save()
+        messages.success(request, 'Arquivo salvo com sucesso!')
+
+        return redirect('importacoes')
 
     dados = {'form':form, 'name':name, 'size':size}
     return render(request, 'uploads/upload.html', dados)

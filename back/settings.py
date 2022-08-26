@@ -80,9 +80,9 @@ WSGI_APPLICATION = 'back.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'bancomovimento',
-        'USER': 'postgres',
-        'PASSWORD': 'nicolasvx123',
+        'NAME': '##',
+        'USER': '##',
+        'PASSWORD': '##',
         'HOST': 'localhost'
     }
 }
@@ -116,8 +116,6 @@ TIME_ZONE = 'America/Sao_Paulo'
 
 USE_I18N = True
 
-
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
@@ -140,16 +138,6 @@ MESSAGE_TAGS = {
     messages.ERROR: 'red',
     messages.SUCCESS: 'green'
 }
-
-# Definindo as configurações para envio de senha por email.
-
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'sendemailtratamentocsv@gmail.com'
-EMAIL_HOST_PASSWORD = 'eovsjpjkszafzjdm'
-DEFAULT_FROM_EMAIL = 'default from email'
 
 PROJECT_ROOT = os.path.dirname(__file__)
 sys.path.insert(0, os.path.join(PROJECT_ROOT, '../apps'))

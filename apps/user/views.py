@@ -2,7 +2,6 @@ from random import randint
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.models import User
-from django.core.mail import send_mail
 from django.contrib.auth import authenticate, login as login_auth, logout as logout_auth
 from django.contrib.auth.decorators import login_required
 
@@ -32,9 +31,8 @@ def cadastro(request):
             messages.error(request, 'Usuário já cadastrado!')
             return redirect('cadastro')
         user = User.objects.create_user(username=nome, email=email, password=senha)
-        send_mail('Senha da sua conta Tratamento CSV!', 'Guarde bem a sua senha: {}'.format(senha), 'sendemailtratamentocsv@gmail.com', [email], fail_silently=False)
         user.save()
-        messages.success(request, 'Usuário cadastrado com sucesso!')
+        messages.success(request, f'Usuário cadastrado com sucesso! A senha para acesso é: {senha}')
         return redirect('login')
 
     return render(request, 'autenticacao/cadastro.html')
