@@ -66,7 +66,7 @@ git clone https://github.com/NiRovil/TrataAqui
 
 ### Configuração
 
-Após a clonar o repositório, você precisará configurar as opções de database no arquivo setup/settings.py
+Após a clonar o repositório, você precisará configurar as opções de database no arquivo back/settings.py
 
 ```bash
 [...]
@@ -174,7 +174,7 @@ services:
 
 ## Configuração
 
-Antes de iniciar o container, você precisará configurar as opções de database no arquivo setup/settings.py
+Antes de iniciar o container, você precisará configurar as opções de database no arquivo back/settings.py
 
 ```bash
 [...]
